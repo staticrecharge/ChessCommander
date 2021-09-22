@@ -1,0 +1,294 @@
+<GuiXml>
+
+  <Font name="CCFontDescription" font="$(MEDIUM_FONT)|$(KB_13)|soft-shadow-thin" />
+
+  <Controls>
+
+    <!-- Piece Selection Template -->
+    <Button name="CCPieceSelect" font="ZoFontGame" horizontalAlignment="CENTER" verticalAlignment="CENTER" clickSound="Click" virtual="true">
+      <Dimensions x="30" y ="30" />
+      <FontColors normalColor="AAAAAA" mouseOverColor="FFFFFF" pressedColor="AAAAAA" />
+    </Button>
+
+    <!-- Square Selection Templates -->
+    <Control name="CCWhiteSquare" virtual="true">
+      <Dimensions x="14.5" y ="14.5" />
+      <OnMouseEnter> self:GetNamedChild("$(parent)BG"):SetEdgeColor(102, 153, 255) </OnMouseEnter>
+      <Controls>
+        
+        <Backdrop name="$(parent)BG" centerColor="999999" edgeColor="999999">
+          <AnchorFill />
+        </Backdrop>
+
+      </Controls>
+
+    </Control>
+
+    <Control name="CCBlackSquare" virtual="true">
+      <Dimensions x="14.5" y ="14.5" />
+      <Controls>
+        
+        <Backdrop name="$(parent)BG" centerColor="101010" edgeColor="00000000">
+          <AnchorFill />
+        </Backdrop>
+
+      </Controls>
+    </Control>
+
+    <!-- Empty Dialogue Box for aiding in set up and other functions. -->
+    <TopLevelControl name="CC_DialogueBox" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="true">
+      <Dimensions x="400" y ="150" />
+      <Anchor point="CENTER" relativeTo="GuiRoot" relativePoint="CENTER" offsetX="0" offsetY="-200" />
+      <Controls>
+
+        <Backdrop name="$(parent)BG" inherits="ZO_DefaultBackdrop">
+          <AnchorFill />
+        </Backdrop>
+
+        <Label name="$(parent)Title" font="ZoFontWinT1" color="6699FF" text="Chess Commander" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+          <Dimensions x="400" y="30" />
+          <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0" />
+        </Label>
+
+        <Label name="$(parent)Description" font="CCFontDescription" color="FFFFFF" text="This is a test." horizontalAlignment="CENTER" verticalAlignment="CENTER">
+          <Dimensions x="390" y="70" />
+          <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="BOTTOM" offsetX="0" offsetY="0" />
+        </Label>
+
+        <Button name="$(parent)AcceptButton" inherits="ZO_DefaultButton" text="Accept">
+          <Dimensions x="100" y="40" />
+          <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="50" offsetY="-10" />
+          <OnClicked>
+						CC_ACCEPT()
+					</OnClicked>
+        </Button>
+
+        <Button name="$(parent)CancelButton" inherits="ZO_DefaultButton" text="Cancel">
+          <Dimensions x="100" y="40" />
+          <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-50" offsetY="-10" />
+          <OnClicked>
+						CC_CANCEL()
+					</OnClicked>
+        </Button>
+
+      </Controls>
+    </TopLevelControl>
+
+    <!-- HUD Main Window -->
+    <TopLevelControl name="CC_HUD" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="false">
+      <Dimensions x="250" y ="400" />
+      <Anchor point="RIGHT" relativeTo="GuiRoot" relativePoint="RIGHT" offsetX="0" offsetY="0" />
+      <Controls>
+      
+        <Backdrop name="$(parent)BG" centerColor="CC1F1F2E" edgeColor="AA6699FF">
+          <AnchorFill />
+        </Backdrop>
+        
+        <Label name="$(parent)Title" font="ZoFontWinT1" color="6699FF" text="Chess Commander" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+          <Dimensions x="250" y="30" />
+          <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0" />
+        </Label>
+
+        <!-- White Turn and Timer Information -->
+        <Control name="$(parent)WhiteBlock">
+          <Dimensions x="120" y ="60" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)Title" relativePoint="BOTTOMLEFT" offsetX="3" offsetY="0" />
+          <Controls>
+
+            <Backdrop name="$(parent)BG" centerColor="00000000" edgeColor="6699FF" alpha="1">
+              <AnchorFill />
+            </Backdrop>
+
+            <Label name="$(parent)Title" font="ZoFontWinT2" color="6699FF" text="WHITE" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="120" y ="20" />
+              <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0" />
+            </Label>
+
+            <Label name="$(parent)Name" font="ZoFontWinT2" color="6699FF" text="@static_recharge" horizontalAlignment="CENTER" verticalAlignment="CENTER" wrapMode="ELLIPSIS">
+              <Dimensions x="120" y ="20" />
+              <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="19" />
+            </Label>
+
+            <Label name="$(parent)Time" font="ZoFontGame" color="6699FF" text="55m" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="56" y ="20" />
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="2" offsetY="-2" />
+            </Label>
+
+            <Label name="$(parent)Moves" font="ZoFontGame" color="6699FF" text="(15/40)" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="56" y ="20" />
+              <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-2" offsetY="-2" />
+            </Label>
+
+          </Controls>
+        </Control>
+
+        <!-- Black Turn and Timer Information-->
+        <Control name="$(parent)BlackBlock">
+          <Dimensions x="120" y ="60" />
+          <Anchor point="TOPRIGHT" relativeTo="$(parent)Title" relativePoint="BOTTOMRIGHT" offsetX="-3" offsetY="0" />
+          <Controls>
+
+            <Backdrop name="$(parent)BG" centerColor="00000000" edgeColor="00000000" alpha="0.75">
+              <AnchorFill />
+            </Backdrop>
+
+            <Label name="$(parent)Title" font="ZoFontWinT2" color="555555" text="BLACK" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="120" y ="20" />
+              <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="0" />
+            </Label>
+
+            <Label name="$(parent)Name" font="ZoFontWinT2" color="555555" text="@blaize_0" horizontalAlignment="CENTER" verticalAlignment="CENTER" wrapMode="ELLIPSIS">
+              <Dimensions x="120" y ="20" />
+              <Anchor point="TOP" relativeTo="$(parent)" relativePoint="TOP" offsetX="0" offsetY="19" />
+            </Label>
+
+            <Label name="$(parent)Time" font="ZoFontGame" color="555555" text="55m" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="56" y ="20" />
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="2" offsetY="-2" />
+            </Label>
+
+            <Label name="$(parent)Moves" font="ZoFontGame" color="555555" text="(15/40)" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="56" y ="20" />
+              <Anchor point="BOTTOMRIGHT" relativeTo="$(parent)" relativePoint="BOTTOMRIGHT" offsetX="-2" offsetY="-2" />
+            </Label>
+
+          </Controls>
+        </Control>
+
+        <!-- Moves List-->
+        <Control name="$(parent)MovesList">
+          <Dimensions x="244" y ="100" />
+          <Anchor point="TOP" relativeTo="$(parent)Title" relativePoint="TOP" offsetX="0" offsetY="93" />
+          <Controls>
+
+            <Backdrop name="$(parent)BG" centerColor="00000000" edgeColor="6699FF" alpha="1">
+              <AnchorFill />
+            </Backdrop>
+
+            <Label name="$(parent)Label" font="ZoFontGame" color="FFFFFFFF" text="Ke4" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="120" y ="20" />
+              <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="3" offsetY="0" />
+            </Label>
+
+            <Label name="$(parent)Label2" font="ZoFontGame" color="FFFFFFFF" text="Qb8" horizontalAlignment="CENTER" verticalAlignment="CENTER">
+              <Dimensions x="120" y ="20" />
+              <Anchor point="TOPRIGHT" relativeTo="$(parent)" relativePoint="TOPRIGHT" offsetX="-3" offsetY="0" />
+            </Label>
+
+          </Controls>
+        </Control>
+
+        <!-- Piece Selection-->
+        <Control name="$(parent)PieceSelect">
+          <Dimensions x="120" y ="120" />
+          <Anchor point="TOPLEFT" relativeTo="$(parent)MovesList" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="3" />
+          <Controls>
+
+            <Backdrop name="$(parent)BG" centerColor="00000000" edgeColor="6699FF" alpha="1">
+              <AnchorFill />
+            </Backdrop>
+
+            <Button name="$(parent)P1" inherits="CCPieceSelect" text="P1">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)" relativePoint="TOPLEFT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P2" inherits="CCPieceSelect" text="P2">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P1" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P3" inherits="CCPieceSelect" text="P3">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P2" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P4" inherits="CCPieceSelect" text="P4">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P3" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P5" inherits="CCPieceSelect" text="P5">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P1" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P6" inherits="CCPieceSelect" text="P6">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P5" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P7" inherits="CCPieceSelect" text="P7">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P6" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)P8" inherits="CCPieceSelect" text="P8">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P7" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)QR" inherits="CCPieceSelect" text="QR">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)P5" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)QN" inherits="CCPieceSelect" text="QN">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)QR" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)QB" inherits="CCPieceSelect" text="QB">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)QN" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)Q" inherits="CCPieceSelect" text="Q">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)QB" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)K" inherits="CCPieceSelect" text="K">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)QR" relativePoint="BOTTOMLEFT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)KB" inherits="CCPieceSelect" text="KB">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)K" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)KN" inherits="CCPieceSelect" text="KN">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)KB" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+            <Button name="$(parent)KR" inherits="CCPieceSelect" text="KR">
+              <Anchor point="TOPLEFT" relativeTo="$(parent)KN" relativePoint="TOPRIGHT" offsetX="0" offsetY="0" />
+            </Button>
+
+          </Controls>
+        </Control>
+
+        <!-- Square Selection -->
+        <Control name="$(parent)SquareSelect">
+          <Dimensions x="120" y ="120" />
+          <Anchor point="TOPRIGHT" relativeTo="$(parent)MovesList" relativePoint="BOTTOMRIGHT" offsetX="0" offsetY="3" />
+          <Controls>
+
+            <Backdrop name="$(parent)BG" centerColor="00000000" edgeColor="6699FF" alpha="1">
+              <AnchorFill />
+            </Backdrop>
+
+           <Backdrop name="$(parent)A1" inherits="CCBlackSquare">
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)" relativePoint="BOTTOMLEFT" offsetX="2" offsetY="-2" />
+            </Backdrop>
+
+            <Backdrop name="$(parent)C1" inherits="CCBlackSquare">
+              <Dimensions x="14.5" y ="14.5" />
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)A1" relativePoint="BOTTOMLEFT" offsetX="30" offsetY="0" />
+            </Backdrop>
+
+            <Backdrop name="$(parent)B2" inherits="CCBlackSquare">
+              <Dimensions x="14.5" y ="14.5" />
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)A1" relativePoint="BOTTOMLEFT" offsetX="15" offsetY="-15" />
+            </Backdrop>
+
+            <Backdrop name="$(parent)B1" inherits="CCWhiteSquare">
+              <Anchor point="BOTTOMLEFT" relativeTo="$(parent)A1" relativePoint="BOTTOMLEFT" offsetX="15" offsetY="0" />
+            </Backdrop>
+
+          </Controls>
+        </Control>
+
+      </Controls>
+    </TopLevelControl>
+
+  </Controls>
+
+</GuiXml>

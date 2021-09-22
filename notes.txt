@@ -1,0 +1,210 @@
+For board calculations
+needed:
+  x and y origin offset
+  square spacing
+  rotation from world coordinates
+
+world coordinates
+ North = y-
+ South = y+
+ East = x+
+ West = x-
+
+
+HousingEditorGetFurnitureLocalBounds(id64 furnitureId)
+Returns: number minLocalX, number minLocalY, number minLocalZ, number maxLocalX, number maxLocalY, number maxLocalZ
+
+HousingEditorGetFurnitureOrientation(id64 furnitureId)
+Returns: number pitchRadians, number yawRadians, number rollRadians
+
+HousingEditorGetFurnitureWorldBounds(id64 furnitureId)
+Returns: number minWorldX, number minWorldY, number minWorldZ, number maxWorldX, number maxWorldY, number maxWorldZ
+
+HousingEditorGetFurnitureWorldPosition(id64 furnitureId)
+Returns: number worldX, number worldY, number worldZ
+
+HousingEditorRequestChangePosition(id64 furnitureId, number worldX, number worldY, number worldZ)
+Returns: number HousingRequestResult result
+
+GetPlacedHousingFurnitureInfo(id64 furnitureId)
+Returns: string itemName, textureName icon, number furnitureDataId
+
+HousingEditorGetSelectedFurnitureId()
+Returns: id64:nilable furnitureId
+
+HousingEditorSelectTargettedFurniture()
+Returns: number HousingRequestResult result
+
+GetHousingEditorMode()
+Returns: number HousingEditorMode mode
+
+HousingEditorRequestModeChange(number HousingEditorMode mode)
+Returns: number HousingRequestResult result
+
+HOUSING_REQUEST_RESULT_ALREADY_APPLYING_TEMPLATE
+13
+HOUSING_REQUEST_RESULT_ALREADY_BEING_MOVED
+11
+HOUSING_REQUEST_RESULT_ALREADY_SET_TO_MODE
+30
+HOUSING_REQUEST_RESULT_BLOCKED_BY_BLACKLISTED_COLLECTIBLE
+56
+HOUSING_REQUEST_RESULT_FURNITURE_ALREADY_SELECTED
+25
+HOUSING_REQUEST_RESULT_HIGH_IMPACT_COLLECTIBLE_PLACE_LIMIT
+15
+HOUSING_REQUEST_RESULT_HIGH_IMPACT_ITEM_PLACE_LIMIT
+32
+HOUSING_REQUEST_RESULT_HOME_SHOW_NOT_ENOUGH_PLACED
+18
+HOUSING_REQUEST_RESULT_INCORRECT_MODE
+21
+HOUSING_REQUEST_RESULT_INVALID_FURNITURE_POSITION
+52
+HOUSING_REQUEST_RESULT_INVALID_TEMPLATE
+12
+HOUSING_REQUEST_RESULT_INVENTORY_REMOVE_FAILED
+2
+HOUSING_REQUEST_RESULT_IN_COMBAT
+27
+HOUSING_REQUEST_RESULT_IN_SAFE_ZONE
+20
+HOUSING_REQUEST_RESULT_IS_DEAD
+29
+HOUSING_REQUEST_RESULT_ITEM_REMOVE_FAILED
+3
+HOUSING_REQUEST_RESULT_ITEM_REMOVE_FAILED_ALREADY_OWN_UNIQUE
+34
+HOUSING_REQUEST_RESULT_ITEM_REMOVE_FAILED_INVENTORY_FULL
+26
+HOUSING_REQUEST_RESULT_ITEM_STOLEN
+31
+HOUSING_REQUEST_RESULT_ITERATION_BEGIN
+0
+HOUSING_REQUEST_RESULT_ITERATION_END
+63
+HOUSING_REQUEST_RESULT_LINK_ALREADY_HAS_PARENT
+39
+HOUSING_REQUEST_RESULT_LINK_ALREADY_LINKED
+38
+HOUSING_REQUEST_RESULT_LINK_FAILED
+35
+HOUSING_REQUEST_RESULT_LINK_HAS_NO_CHILDREN
+41
+HOUSING_REQUEST_RESULT_LINK_HAS_NO_PARENT
+40
+HOUSING_REQUEST_RESULT_LINK_HAS_TOO_MANY_CHILDREN
+42
+HOUSING_REQUEST_RESULT_LINK_INFINITE_PARENT_LOOP
+37
+HOUSING_REQUEST_RESULT_LINK_NO_BAD_LINKAGE
+43
+HOUSING_REQUEST_RESULT_LINK_SAME_FURNITURE
+36
+HOUSING_REQUEST_RESULT_LISTED
+9
+HOUSING_REQUEST_RESULT_LOW_IMPACT_COLLECTIBLE_PLACE_LIMIT
+14
+HOUSING_REQUEST_RESULT_LOW_IMPACT_ITEM_PLACE_LIMIT
+8
+HOUSING_REQUEST_RESULT_MAX_VALUE
+63
+HOUSING_REQUEST_RESULT_METRICS_LIMIT_HIT
+33
+HOUSING_REQUEST_RESULT_MIN_VALUE
+0
+HOUSING_REQUEST_RESULT_MOVE_FAILED
+4
+HOUSING_REQUEST_RESULT_NOT_HOME_SHOW
+10
+HOUSING_REQUEST_RESULT_NOT_IN_HOUSE
+28
+HOUSING_REQUEST_RESULT_NO_CHANGES
+58
+HOUSING_REQUEST_RESULT_NO_DUPLICATES
+24
+HOUSING_REQUEST_RESULT_NO_SUCH_FURNITURE
+19
+HOUSING_REQUEST_RESULT_NO_TARGET
+53
+HOUSING_REQUEST_RESULT_PATH_CANT_RESTART_ALL_PATHS
+60
+HOUSING_REQUEST_RESULT_PATH_FURNITURE_PATHING
+49
+HOUSING_REQUEST_RESULT_PATH_INDEX_OUT_OF_RANGE
+50
+HOUSING_REQUEST_RESULT_PATH_INVALID_FURNITURE
+44
+HOUSING_REQUEST_RESULT_PATH_INVALID_NODE
+47
+HOUSING_REQUEST_RESULT_PATH_MODE_ONLY
+51
+HOUSING_REQUEST_RESULT_PATH_NODE_TOO_CLOSE
+54
+HOUSING_REQUEST_RESULT_PATH_NOT_ENOUGH_NODES
+46
+HOUSING_REQUEST_RESULT_PATH_NO_PATH_DATA
+48
+HOUSING_REQUEST_RESULT_PATH_TOO_MANY_NODES
+45
+HOUSING_REQUEST_RESULT_PATH_TOO_MANY_PATHS
+57
+HOUSING_REQUEST_RESULT_PATH_UNSUPPORTED_PATH_TYPE
+59
+HOUSING_REQUEST_RESULT_PATH_WAIT_TIME_OUT_OF_RANGE
+55
+HOUSING_REQUEST_RESULT_PERMISSIONS_AT_LIMIT_GUILD
+61
+HOUSING_REQUEST_RESULT_PERMISSIONS_AT_LIMIT_INDIVIDUAL
+62
+HOUSING_REQUEST_RESULT_PERMISSIONS_AT_TOTAL_LIMIT
+63
+HOUSING_REQUEST_RESULT_PERMISSION_FAILED
+6
+HOUSING_REQUEST_RESULT_PERSONAL_TEMP_ITEM_PLACE_LIMIT
+17
+HOUSING_REQUEST_RESULT_PLACE_FAILED
+1
+HOUSING_REQUEST_RESULT_REMOVE_FAILED
+5
+HOUSING_REQUEST_RESULT_REQUEST_IN_PROGRESS
+23
+HOUSING_REQUEST_RESULT_SET_STATE_FAILED
+7
+HOUSING_REQUEST_RESULT_SUCCESS
+0
+HOUSING_REQUEST_RESULT_TOTAL_TEMP_ITEM_PLACE_LIMIT
+16
+HOUSING_REQUEST_RESULT_UNKNOWN_FAILURE
+22
+
+
+
+
+
+-- basic capture movement logic
+    if ((xCurrent + 1) <= 8) and ((yCurrent + forward) <= 8) and ((yCurrent + forward) >= 1) then
+      if (CC.Game.Squares[xCurrent + 1][yCurrent + forward] ~= nil) then
+        local target = CC.Pieces[CC.Game.Squares[xCurrent + 1][yCurrent + forward]]
+        if target.color ~= color then
+          Moves[xCurrent + 1][yCurrent + forward] = true
+        end
+      end
+    end
+    if ((xCurrent - 1) >= 1) and ((yCurrent + forward) <= 8) and ((yCurrent + forward) >= 1) then
+      if (CC.Game.Squares[xCurrent - 1][yCurrent + forward] ~= nil) then
+        local target = CC.Pieces[CC.Game.Squares[xCurrent - 1][yCurrent + forward]]
+        if target.color ~= color then
+          Moves[xCurrent - 1][yCurrent + forward] = true
+        end
+      end
+    end
+    -- En passant capture movement logic
+    if (xCurrent - 1) >= 1 then
+      if (CC.Game.Squares[xCurrent - 1][yCurrent] ~= nil) then
+        local target = CC.Pieces[CC.Game.Squares[xCurrent - 1][yCurrent]]
+        if target.color ~= color and target.numMoves == 1 and target.type == CC.Const.pawn then
+          Moves[xCurrent - 1][yCurrent + forward] = true
+        end
+      end
+    end
